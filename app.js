@@ -217,8 +217,9 @@ app.post('/auth/google', function(req, res) {
             }
             user.google = profile.sub;
             user.displayName = user.displayName || profile.name;
-            user.save(function() {
+            user.save(function(err) {
               var token = createToken(user);
+              console.log('save error:', err);
               res.send({ token: token });
             });
           });
