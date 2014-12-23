@@ -179,7 +179,7 @@ app.post('/auth/signup', function(req, res) {
  | Login with Google
  |--------------------------------------------------------------------------
  */
-app.post('/auth/google', function(req, res) {
+app.get('/auth/google', function(req, res) {
   var accessTokenUrl = 'https://accounts.google.com/o/oauth2/token';
   var peopleApiUrl = 'https://www.googleapis.com/plus/v1/people/me/openIdConnect';
   var params = {

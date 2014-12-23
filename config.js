@@ -3,7 +3,7 @@ module.exports = {
   MONGO_URI: process.env.MONGO_URI || 'mongodb://satserver:a123b456@ds047940.mongolab.com:47940/heroku_app32769265',
   FACEBOOK_SECRET: process.env.FACEBOOK_SECRET || 'Facebook App Secret',
   FOURSQUARE_SECRET: process.env.FOURSQUARE_SECRET || 'Foursquare Client Secret',
-  GOOGLE_SECRET: process.env.GOOGLE_SECRET || 'Google Client Secret',
+  GOOGLE_SECRET: process.env.GOOGLE_SECRET || 'YN062UoLRjdLm1KLlXttPhiI',
   GITHUB_SECRET: process.env.GITHUB_SECRET || 'GitHub Client Secret',
   LINKEDIN_SECRET: process.env.LINKEDIN_SECRET || 'LinkedIn Client Secret',
   WINDOWS_LIVE_SECRET: process.env.WINDOWS_LIVE_SECRET || 'Windows Live Secret',
