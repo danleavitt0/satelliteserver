@@ -234,7 +234,7 @@ app.post('/auth/google', function(req, res) {
           user.displayName = profile.name;
           user.save(function(err) {
             var token = createToken(user);
-            res.send({ token: token });
+            res.send({ token: token, name:profile.name, user:user });
           });
         });
       }
