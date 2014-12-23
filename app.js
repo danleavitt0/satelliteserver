@@ -16,6 +16,7 @@ var jwt = require('jwt-simple');
 var moment = require('moment');
 var mongoose = require('mongoose');
 var request = require('request');
+var cors = require('cors');
 
 var config = require('./config');
 
@@ -62,6 +63,10 @@ app.set('port', process.env.PORT || 3000);
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors({
+ origin: '*',
+ methods: 'GET,HEAD,PUT,POST,DELETE,PATCH'
+}));
 
 // Force HTTPS on Heroku
 if (app.get('env') === 'production') {
