@@ -227,7 +227,7 @@ app.post('/auth/google', function(req, res) {
         // Step 3b. Create a new user account or return an existing one.
         User.findOne({ google: profile.sub }, function(err, existingUser) {
           if (existingUser) {
-            return res.send({ token: createToken(existingUser), name:profile.name, user:user });
+            return res.send({ token: createToken(existingUser), name:profile.name, profile:profile.picture });
           }
           var user = new User();
           user.google = profile.sub;
