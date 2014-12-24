@@ -203,9 +203,9 @@ app.post('/auth/google', function(req, res) {
     var that = this;
 
     var activities = request.get({ url: activityApiUrl, headers: headers, json: true }, function(err, response, profile) {
+      console.log(response, profile);
       return response;
     })
-    console.log(activities);
     // Step 2. Retrieve profile information about the current user.
     request.get({ url: peopleApiUrl, headers: headers, json: true }, function(err, response, profile) {
 
@@ -233,7 +233,6 @@ app.post('/auth/google', function(req, res) {
         // Step 3b. Create a new user account or return an existing one.
         User.findOne({ google: profile.sub }, function(err, existingUser) {
           if (existingUser) {
-            console.log('activities 2', activities);
             return res.send({ token: createToken(existingUser), profile:profile, picture:profile.picture, activities:activities });
           }
           var user = new User();
