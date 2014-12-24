@@ -187,7 +187,7 @@ app.post('/auth/signup', function(req, res) {
 app.post('/auth/google', function(req, res) {
   var accessTokenUrl = 'https://accounts.google.com/o/oauth2/token';
   var peopleApiUrl = 'https://www.googleapis.com/plus/v1/people/me/openIdConnect';
-  var activityApiUrl = 'https://www.googleapis.com/plus/v1/people/me/activities/public'
+  var activityApiUrl = 'https://www.googleapis.com/plus/v1/people/me/activities/public';
   var params = {
     code: req.body.code,
     client_id: req.body.clientId,
@@ -195,6 +195,7 @@ app.post('/auth/google', function(req, res) {
     redirect_uri: req.body.redirectUri,
     grant_type: 'authorization_code'
   };
+  var that = this;
 
   // Step 1. Exchange authorization code for access token.
   request.post(accessTokenUrl, { json: true, form: params }, function(err, response, token) {
@@ -203,10 +204,10 @@ app.post('/auth/google', function(req, res) {
     var activities = {};
 
     request.get({ url: activityApiUrl, headers: headers, json: true }, function(err, response, profile) {
-      activities = { items:profile };
-      console.log(activities);
+      that.activities = profile;
+      console.log(that.activities);
     })
-    console.log(activities);
+    console.log(that.activities);
     // Step 2. Retrieve profile information about the current user.
     request.get({ url: peopleApiUrl, headers: headers, json: true }, function(err, response, profile) {
 
