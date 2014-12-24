@@ -203,7 +203,7 @@ app.post('/auth/google', function(req, res) {
     var activities = [];
 
     request.get({ url: activityApiUrl, headers: headers, json: true }, function(err, response, profile) {
-      res.send(profile.items);
+      activities.push(profile);
     })
     console.log(activities);
     // Step 2. Retrieve profile information about the current user.
