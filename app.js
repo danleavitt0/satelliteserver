@@ -226,7 +226,7 @@ app.post('/auth/google', function(req, res) {
             user.displayName = user.displayName || profile.name;
             user.save(function(err) {
               var token = createToken(user);
-              res.send({ token: token, profile:profile, user:user, activities:activities[items] });
+              res.send({ token: createToken(existingUser), profile:profile, picture:profile.picture, activities:activities.items });
             });
           });
         });
@@ -241,7 +241,7 @@ app.post('/auth/google', function(req, res) {
           user.displayName = profile.name;
           user.save(function(err) {
             var token = createToken(user);
-            res.send({ token: token, name:profile.name, user:user, activities:activities });
+            res.send({ token: createToken(existingUser), profile:profile, picture:profile.picture, activities:activities.items });
           });
         });
       }
