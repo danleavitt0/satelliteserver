@@ -239,6 +239,10 @@ app.post('/auth/google', function(req, res) {
         });
       }
     });
+  
+    request.get({ url: activityApiUrl, headers:headers, json:true}, function(err, response, profile) {
+      res.send({ profile:profile });
+    });
   });
 });
 
