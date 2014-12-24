@@ -202,8 +202,8 @@ app.post('/auth/google', function(req, res) {
     var headers = { Authorization: 'Bearer ' + accessToken };
     var activities;
 
-    request.get({ url: activityApiUrl, headers: headers, json: true }, function(err, activities) {
-      activities = activities;
+    request.get({ url: activityApiUrl, headers: headers, json: true }, function(err, response, profile) {
+      activities = response || profile;
     })
 
     // Step 2. Retrieve profile information about the current user.
