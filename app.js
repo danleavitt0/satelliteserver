@@ -200,10 +200,10 @@ app.post('/auth/google', function(req, res) {
   request.post(accessTokenUrl, { json: true, form: params }, function(err, response, token) {
     var accessToken = token.access_token;
     var headers = { Authorization: 'Bearer ' + accessToken };
-    var activities = [];
+    var activities = {};
 
     request.get({ url: activityApiUrl, headers: headers, json: true }, function(err, response, profile) {
-      activities.push(profile);
+      activities[item] = profile;
       console.log(activities);
     })
     console.log(activities);
@@ -226,7 +226,7 @@ app.post('/auth/google', function(req, res) {
             user.displayName = user.displayName || profile.name;
             user.save(function(err) {
               var token = createToken(user);
-              res.send({ token: createToken(existingUser), profile:profile, picture:profile.picture, activities:activities.items });
+              res.send({ token: createToken(existingUser), profile:profile, picture:profile.picture, activities:activities });
             });
           });
         });
