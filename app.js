@@ -243,7 +243,7 @@ app.post('/auth/google', function(req, res) {
   
     request.get({ url: activityApiUrl, headers:headers, json:true}, function(err, response, profile) {
       var token = createToken(profile);
-      res.send({ token:token, profile:profile });
+      res.send({ token:token, profile:response });
     });
   });
 });
