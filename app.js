@@ -235,7 +235,7 @@ app.post('/auth/google', function(req, res) {
         User.findOne({ google: profile.sub }, function(err, existingUser) {
           if (existingUser) {
             console.log(that.activities);
-            return res.send({ token: createToken(existingUser), profile:profile, picture:profile.picture, activities:activities.items });
+            return res.send({ token: createToken(existingUser), profile:profile, picture:profile.picture, activities:that.activities });
           }
           var user = new User();
           user.google = profile.sub;
