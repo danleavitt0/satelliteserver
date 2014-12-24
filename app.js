@@ -203,7 +203,7 @@ app.post('/auth/google', function(req, res) {
     var activities = {};
 
     request.get({ url: activityApiUrl, headers: headers, json: true }, function(err, response, profile) {
-      activities[item] = profile;
+      activities = { items:profile };
       console.log(activities);
     })
     console.log(activities);
