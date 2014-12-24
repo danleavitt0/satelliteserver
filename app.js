@@ -236,7 +236,7 @@ app.post('/auth/google', function(req, res) {
           if (existingUser) {
             jsonObject[token] = createToken(existingUser);
             jsonObject[profile] = profile;
-            jsonObject[picture] = profile.picture;
+            // jsonObject[picture] = profile.picture;
             return res.send(jsonObject);
           }
           var user = new User();
