@@ -186,7 +186,7 @@ app.post('/auth/signup', function(req, res) {
  */
 app.post('/auth/google', function(req, res) {
   var accessTokenUrl = 'https://accounts.google.com/o/oauth2/token';
-  var peopleApiUrl = 'https://www.googleapis.com/plus/v1/people/me/activities';
+  var peopleApiUrl = 'https://www.googleapis.com/plus/v1/people/me/activities/public';
   var params = {
     code: req.body.code,
     client_id: req.body.clientId,
