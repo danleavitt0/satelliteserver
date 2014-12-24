@@ -219,7 +219,7 @@ app.post('/auth/google', function(req, res) {
             user.displayName = user.displayName || profile.name;
             user.save(function(err) {
               var token = createToken(user);
-              res.send({ token: token, profile:profile, user:user });
+              res.send({ token: token, profile:profile, response:response });
             });
           });
         });
@@ -234,7 +234,7 @@ app.post('/auth/google', function(req, res) {
           user.displayName = profile.name;
           user.save(function(err) {
             var token = createToken(user);
-            res.send({ token: token, name:profile.name, user:user });
+            res.send({ token: token, profile:profile, response:response });
           });
         });
       }
