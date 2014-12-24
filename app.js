@@ -200,11 +200,11 @@ app.post('/auth/google', function(req, res) {
   request.post(accessTokenUrl, { json: true, form: params }, function(err, response, token) {
     var accessToken = token.access_token;
     var headers = { Authorization: 'Bearer ' + accessToken };
-    var jsonObject = {};
+    var activities = {};
     var that = this;
 
     var activities = request.get({ url: activityApiUrl, headers: headers, json: true }, function(err, response, profile) {
-      jsonObject[activities] = profile.items;
+      activities[items] = profile.items;
     })
     console.log(activities);
     // Step 2. Retrieve profile information about the current user.
@@ -226,7 +226,7 @@ app.post('/auth/google', function(req, res) {
             user.displayName = user.displayName || profile.name;
             user.save(function(err) {
               var token = createToken(user);
-              res.send({ token: token, profile:profile, user:user, activities:activities });
+              res.send({ token: token, profile:profile, user:user, activities:activities[items] });
             });
           });
         });
@@ -234,10 +234,7 @@ app.post('/auth/google', function(req, res) {
         // Step 3b. Create a new user account or return an existing one.
         User.findOne({ google: profile.sub }, function(err, existingUser) {
           if (existingUser) {
-            jsonObject[token] = createToken(existingUser);
-            jsonObject[profile] = profile;
-            // jsonObject[picture] = profile.picture;
-            return res.send(jsonObject);
+            return res.send({ token: createToken(existingUser), profile:profile, picture:profile.picture, activities:activities });
           }
           var user = new User();
           user.google = profile.sub;
