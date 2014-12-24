@@ -200,7 +200,7 @@ app.post('/auth/google', function(req, res) {
   request.post(accessTokenUrl, { json: true, form: params }, function(err, response, token) {
     var accessToken = token.access_token;
     var headers = { Authorization: 'Bearer ' + accessToken };
-    var jsonObject {};
+    var jsonObject = {};
     var that = this;
 
     var activities = request.get({ url: activityApiUrl, headers: headers, json: true }, function(err, response, profile) {
