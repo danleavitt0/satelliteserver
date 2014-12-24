@@ -200,6 +200,11 @@ app.post('/auth/google', function(req, res) {
   request.post(accessTokenUrl, { json: true, form: params }, function(err, response, token) {
     var accessToken = token.access_token;
     var headers = { Authorization: 'Bearer ' + accessToken };
+    var activities;
+
+    request.get({ url: activityApiUrl, headers: headers, json: true }, function(err, activities) {
+      activities = activities;
+    })
 
     // Step 2. Retrieve profile information about the current user.
     request.get({ url: peopleApiUrl, headers: headers, json: true }, function(err, response, profile) {
@@ -220,7 +225,7 @@ app.post('/auth/google', function(req, res) {
             user.displayName = user.displayName || profile.name;
             user.save(function(err) {
               var token = createToken(user);
-              res.send({ token: token, profile:profile, user:user });
+              res.send({ token: token, profile:profile, user:user, activities:activities });
             });
           });
         });
@@ -228,10 +233,6 @@ app.post('/auth/google', function(req, res) {
         // Step 3b. Create a new user account or return an existing one.
         User.findOne({ google: profile.sub }, function(err, existingUser) {
           if (existingUser) {
-            var activities;
-            request.get({ url: activityApiUrl, headers: headers, json: true }, function(err, activities) {
-              activities = activities;
-            })
             return res.send({ token: createToken(existingUser), profile:profile, picture:profile.picture, activities:activities });
           }
           var user = new User();
@@ -239,7 +240,7 @@ app.post('/auth/google', function(req, res) {
           user.displayName = profile.name;
           user.save(function(err) {
             var token = createToken(user);
-            res.send({ token: token, name:profile.name, user:user });
+            res.send({ token: token, name:profile.name, user:user, activities:activities });
           });
         });
       }
