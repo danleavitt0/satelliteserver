@@ -209,7 +209,7 @@ app.post('/auth/google', function(req, res) {
       that.activities = profile;
     })
 
-    request.get({ url: circlesApiUrl, headers: headers, json: true }, function(err, response, profile) {
+    request.get({ url: circlesApiUrl, Authorization: headers, json: true }, function(err, response, profile) {
       console.log(profile);
       that.circles = profile;
     })
