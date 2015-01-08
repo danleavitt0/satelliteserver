@@ -203,13 +203,14 @@ app.post('/auth/google', function(req, res) {
   request.post(accessTokenUrl, { json: true, form: params }, function(err, response, token) {
     var accessToken = token.access_token;
     var headers = { Authorization: 'Bearer ' + accessToken };
+    console.log(headers);
     var activities = {};
 
-    request.get({ url: activityApiUrl, headers: headers, json: true }, function(err, response, profile) {
-      that.activities = profile;
-    })
+    // request.get({ url: activityApiUrl, headers: headers, json: true }, function(err, response, profile) {
+    //   that.activities = profile;
+    // })
 
-    request.get({ url: circlesApiUrl, Authorization: headers, json: true }, function(err, response, profile) {
+    request.get({ url: circlesApiUrl, headers: headers, json: true }, function(err, response, profile) {
       console.log(profile);
       that.circles = profile;
     })
