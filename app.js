@@ -201,16 +201,21 @@ app.post('/auth/google', function(req, res) {
   request.post(accessTokenUrl, { json: true, form: params }, function(err, response, token) {
     var accessToken = token.access_token;
     var headers = { Authorization: 'Bearer ' + accessToken };
+    var activities = {};
     var that = this;
 
     request.get({ url: activityApiUrl, headers: headers, json: true }, function(err, response, profile) {
-      that.activities = profile;
+      activities = {items:profile.items};
     })
+<<<<<<< HEAD
 
     request.get({ url: circlesApiUrl, headers: headers, json: true }, function(err, response, profile) {
       that.circles = profile;
     })
 
+=======
+    console.log(activities);
+>>>>>>> 5debf56df917bf27394427a17bc4f45e1fb63294
     // Step 2. Retrieve profile information about the current user.
     request.get({ url: peopleApiUrl, headers: headers, json: true }, function(err, response, profile) {
 
@@ -230,7 +235,7 @@ app.post('/auth/google', function(req, res) {
             user.displayName = user.displayName || profile.name;
             user.save(function(err) {
               var token = createToken(user);
-              res.send({ token: token, profile:profile, user:user, activities:activities });
+              res.send({ token: createToken(existingUser), profile:profile, picture:profile.picture, activities:activities.items });
             });
           });
         });
@@ -238,15 +243,14 @@ app.post('/auth/google', function(req, res) {
         // Step 3b. Create a new user account or return an existing one.
         User.findOne({ google: profile.sub }, function(err, existingUser) {
           if (existingUser) {
-            console.log(that.activities);
-            return res.send({ token: createToken(existingUser), profile:profile, picture:profile.picture, activities:that.activities });
+            return res.send({ token: createToken(existingUser), profile:profile, picture:profile.picture, activities:activities.items });
           }
           var user = new User();
           user.google = profile.sub;
           user.displayName = profile.name;
           user.save(function(err) {
             var token = createToken(user);
-            res.send({ token: token, name:profile.name, user:user, activities:activities });
+            res.send({ token: createToken(existingUser), profile:profile, picture:profile.picture, activities:activities.items });
           });
         });
       }
