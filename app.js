@@ -187,8 +187,12 @@ app.post('/auth/signup', function(req, res) {
 app.post('/auth/google', function(req, res) {
   var accessTokenUrl = 'https://accounts.google.com/o/oauth2/token';
   var peopleApiUrl = 'https://www.googleapis.com/plus/v1/people/me/openIdConnect';
+<<<<<<< HEAD
   var activityApiUrl = 'https://www.googleapis.com/plus/v1/people/me/activities/public'
   var circlesApiUrl = 'https://www.googleapis.com/plus/v1/people/me/people/visible'
+=======
+  var activityApiUrl = 'https://www.googleapis.com/plus/v1/people/me/activities/public';
+>>>>>>> 716f9bb671b4b290d80ad052488bbc85fa942740
   var params = {
     code: req.body.code,
     client_id: req.body.clientId,
@@ -196,26 +200,23 @@ app.post('/auth/google', function(req, res) {
     redirect_uri: req.body.redirectUri,
     grant_type: 'authorization_code'
   };
+  var that = this;
 
   // Step 1. Exchange authorization code for access token.
   request.post(accessTokenUrl, { json: true, form: params }, function(err, response, token) {
     var accessToken = token.access_token;
     var headers = { Authorization: 'Bearer ' + accessToken };
     var activities = {};
-    var that = this;
 
     request.get({ url: activityApiUrl, headers: headers, json: true }, function(err, response, profile) {
-      activities = {items:profile.items};
+      that.activities = profile;
+      // console.log(that.activities);
     })
-<<<<<<< HEAD
 
     request.get({ url: circlesApiUrl, headers: headers, json: true }, function(err, response, profile) {
       that.circles = profile;
     })
 
-=======
-    console.log(activities);
->>>>>>> 5debf56df917bf27394427a17bc4f45e1fb63294
     // Step 2. Retrieve profile information about the current user.
     request.get({ url: peopleApiUrl, headers: headers, json: true }, function(err, response, profile) {
 
@@ -235,7 +236,7 @@ app.post('/auth/google', function(req, res) {
             user.displayName = user.displayName || profile.name;
             user.save(function(err) {
               var token = createToken(user);
-              res.send({ token: createToken(existingUser), profile:profile, picture:profile.picture, activities:activities.items });
+              res.send({ token: createToken(existingUser), profile:profile, picture:profile.picture, activities:activities });
             });
           });
         });
@@ -243,7 +244,8 @@ app.post('/auth/google', function(req, res) {
         // Step 3b. Create a new user account or return an existing one.
         User.findOne({ google: profile.sub }, function(err, existingUser) {
           if (existingUser) {
-            return res.send({ token: createToken(existingUser), profile:profile, picture:profile.picture, activities:activities.items });
+            console.log(that.activities);
+            return res.send({ token: createToken(existingUser), profile:profile, picture:profile.picture, activities:that.activities });
           }
           var user = new User();
           user.google = profile.sub;
