@@ -188,7 +188,7 @@ app.post('/auth/google', function(req, res) {
   var accessTokenUrl = 'https://accounts.google.com/o/oauth2/token';
   var peopleApiUrl = 'https://www.googleapis.com/plus/v1/people/me/openIdConnect';
   var activityApiUrl = 'https://www.googleapis.com/plus/v1/people/me/activities/public'
-  var circlesApiUrl = 'https://www.googleapis.com/plus/v1/people/me/people/visible'
+  var circlesApiUrl = 'https://www.googleapis.com/plus/v1/people/me/people/visible?key={YOUR_API_KEY}'
 
   var params = {
     code: req.body.code,
@@ -210,7 +210,7 @@ app.post('/auth/google', function(req, res) {
     })
 
     request.get({ url: circlesApiUrl, headers: headers, json: true }, function(err, response, profile) {
-      console.log(err,response,profile);
+      console.log(profile);
       that.circles = profile;
     })
 
