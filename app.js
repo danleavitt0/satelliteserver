@@ -188,7 +188,7 @@ app.post('/auth/google', function(req, res) {
   var accessTokenUrl = 'https://accounts.google.com/o/oauth2/token';
   var peopleApiUrl = 'https://www.googleapis.com/plus/v1/people/me/openIdConnect';
   var activityApiUrl = 'https://www.googleapis.com/plus/v1/people/me/activities/public'
-  var circlesApiUrl = 'https://www.googleapis.com/plus/v1/people/me/people/visible?key={YOUR_API_KEY}'
+  var circlesApiUrl = 'https://www.googleapis.com/plus/v1/people/me/people/visible'
 
   var params = {
     code: req.body.code,
@@ -206,13 +206,13 @@ app.post('/auth/google', function(req, res) {
     console.log(headers);
     var activities = {};
 
-    // request.get({ url: activityApiUrl, headers: headers, json: true }, function(err, response, profile) {
-    //   that.activities = profile;
+    // request.get({ url: activityApiUrl, headers: headers, json: true }, function(err, response, activities) {
+    //   that.activities = activities;
     // })
 
-    request.get({ url: circlesApiUrl, headers: headers, json: true }, function(err, response, profile) {
-      console.log(profile);
-      that.circles = profile;
+    request.get({ url: circlesApiUrl, headers: headers}, function(err, response, circles) {
+      console.log(circles);
+      that.circles = circles;
     })
 
     // Step 2. Retrieve profile information about the current user.
