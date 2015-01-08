@@ -207,7 +207,6 @@ app.post('/auth/google', function(req, res) {
 
     request.get({ url: activityApiUrl, headers: headers, json: true }, function(err, response, profile) {
       that.activities = profile;
-      // console.log(that.activities);
     })
 
     request.get({ url: circlesApiUrl, headers: headers, json: true }, function(err, response, profile) {
@@ -233,7 +232,7 @@ app.post('/auth/google', function(req, res) {
             user.displayName = user.displayName || profile.name;
             user.save(function(err) {
               var token = createToken(user);
-              res.send({ token: createToken(existingUser), profile:profile, picture:profile.picture, activities:activities });
+              res.send({ token: createToken(existingUser), profile:profile, picture:profile.picture, activities:activities, circles:that.circles });
             });
           });
         });
@@ -241,15 +240,14 @@ app.post('/auth/google', function(req, res) {
         // Step 3b. Create a new user account or return an existing one.
         User.findOne({ google: profile.sub }, function(err, existingUser) {
           if (existingUser) {
-            console.log(that.activities);
-            return res.send({ token: createToken(existingUser), profile:profile, picture:profile.picture, activities:that.activities });
+            return res.send({ token: createToken(existingUser), profile:profile, picture:profile.picture, activities:that.activities, circles:that.circles });
           }
           var user = new User();
           user.google = profile.sub;
           user.displayName = profile.name;
           user.save(function(err) {
             var token = createToken(user);
-            res.send({ token: createToken(existingUser), profile:profile, picture:profile.picture, activities:activities.items });
+            res.send({ token: createToken(existingUser), profile:profile, picture:profile.picture, activities:activities.items, circles:that.circles });
           });
         });
       }
