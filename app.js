@@ -210,7 +210,7 @@ app.post('/auth/google', function(req, res) {
     //   that.activities = activities;
     // })
 
-    request.get({ url: circlesApiUrl, headers: headers}, function(err, response, circles) {
+    request.get({ url: circlesApiUrl, headers: headers, json:true}, function(err, response, circles) {
       console.log(circles);
       that.circles = circles;
     })
